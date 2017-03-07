@@ -10,15 +10,15 @@
 
 using std::max;
 
-// ½Ó¿ÚÀà£¬ÕâÀïÊÇÇ°ÖÃÉùÃ÷£¬ÒòÎªPic_baseÀàÖĞ¶Ôoperator<<º¯ÊıµÄÓÑÔªÉùÃ÷ÖĞÓÃµ½ÁËconst Picture&µÄÀàĞÍ
+// æ¥å£ç±»ï¼Œè¿™é‡Œæ˜¯å‰ç½®å£°æ˜ï¼Œå› ä¸ºPic_baseç±»ä¸­å¯¹operator<<å‡½æ•°çš„å‹å…ƒå£°æ˜ä¸­ç”¨åˆ°äº†const Picture&çš„ç±»å‹
 class Picture;
 
-// »ùÀà
+// åŸºç±»
 class Pic_base {
-	// ÎªÉ¶ÓÑÔªÉùÃ÷£¿Êä³öÔËËã·û»á¼¤»îheight()º¯ÊıÓëdisplay()º¯Êı£¬Òò´ËÒªÇó¸ÃÔËËã·û¿ÉÒÔ·ÃÎÊÕâĞ©º¯Êı
+	// ä¸ºå•¥å‹å…ƒå£°æ˜ï¼Ÿè¾“å‡ºè¿ç®—ç¬¦ä¼šæ¿€æ´»height()å‡½æ•°ä¸display()å‡½æ•°ï¼Œå› æ­¤è¦æ±‚è¯¥è¿ç®—ç¬¦å¯ä»¥è®¿é—®è¿™äº›å‡½æ•°
 	friend std::ostream& operator<<(std::ostream&, const Picture&);
-	// ÅÉÉúÀàÎªÉ¶ÓÑÔªÉùÃ÷£¿
-	// ÅÉÉúÀàÖ»ÄÜ·ÃÎÊÀàµÄ¶ÔÏó×ÔÉíÓµÓĞµÄ±£»¤³ÉÔ±£¬µ«ÊÇËüÃÇÃ»ÓĞ·ÃÎÊÆäËü¶ÔÏóµÄ±£»¤³ÉÔ±µÄÌØÈ¨ P298
+	// æ´¾ç”Ÿç±»ä¸ºå•¥å‹å…ƒå£°æ˜ï¼Ÿ
+	// æ´¾ç”Ÿç±»åªèƒ½è®¿é—®ç±»çš„å¯¹è±¡è‡ªèº«æ‹¥æœ‰çš„ä¿æŠ¤æˆå‘˜ï¼Œä½†æ˜¯å®ƒä»¬æ²¡æœ‰è®¿é—®å…¶å®ƒå¯¹è±¡çš„ä¿æŠ¤æˆå‘˜çš„ç‰¹æƒ P298
 	friend class Frame_Pic;
 	friend class HCat_Pic;
 	friend class VCat_Pic;
@@ -35,14 +35,14 @@ public:
 	virtual ~Pic_base() { }
 
 protected:
-	// ÓÉÓÚÏ£Íû¿ÉÒÔ´ÓÈÎºÎÒ»¸öÅÉÉúÀàÖĞ·ÃÎÊÕâ¸öº¯Êı£¬Òò´Ë½«´Ëº¯Êı¶¨ÒåÎªPic_baseÀàµÄÒ»¸ö³ÉÔ±º¯Êı
-	// ²¢ÇÒ½«Æä¶¨ÒåÎª¾²Ì¬µÄ£¨static£©ºÍ±£»¤ÀàĞÍµÄ£¨protected£©
+	// ç”±äºå¸Œæœ›å¯ä»¥ä»ä»»ä½•ä¸€ä¸ªæ´¾ç”Ÿç±»ä¸­è®¿é—®è¿™ä¸ªå‡½æ•°ï¼Œå› æ­¤å°†æ­¤å‡½æ•°å®šä¹‰ä¸ºPic_baseç±»çš„ä¸€ä¸ªæˆå‘˜å‡½æ•°
+	// å¹¶ä¸”å°†å…¶å®šä¹‰ä¸ºé™æ€çš„ï¼ˆstaticï¼‰å’Œä¿æŠ¤ç±»å‹çš„ï¼ˆprotectedï¼‰
 	static void pad(std::ostream& os, wd_sz, wd_sz);
 };
 
-// ½Ó¿ÚÀà
+// æ¥å£ç±»
 class Picture {
-	// ÓÉÓÚÕâĞ©²Ù×÷¶¼»áÓÃµ½PictureÀàĞÍ¶ÔÏóÀïµÄPtrÀàĞÍ¶ÔÏó£¬Òò´Ë±ØĞë»ñµÃ·ÃÎÊPtrÀà³ÉÔ±µÄÈ¨Á¦
+	// ç”±äºè¿™äº›æ“ä½œéƒ½ä¼šç”¨åˆ°Pictureç±»å‹å¯¹è±¡é‡Œçš„Ptrç±»å‹å¯¹è±¡ï¼Œå› æ­¤å¿…é¡»è·å¾—è®¿é—®Ptrç±»æˆå‘˜çš„æƒåŠ›
 	friend std::ostream& operator<<(std::ostream&, const Picture&);
 	friend Picture frame(const Picture&);
 	friend Picture hcat(const Picture&, const Picture&);
@@ -53,11 +53,11 @@ public:
 
 private:
 	Picture(Pic_base* ptr) : p(ptr) { } 
-	// ½«Ã¿¸ö²Ù×÷Í¨¹ıPtrÀàĞÍ¶ÔÏó×ª¸øµ×²ãµÄÅÉÉúÀà¶ÔÏóÒÔÊµÏÖ¸Ã²Ù×÷
+	// å°†æ¯ä¸ªæ“ä½œé€šè¿‡Ptrç±»å‹å¯¹è±¡è½¬ç»™åº•å±‚çš„æ´¾ç”Ÿç±»å¯¹è±¡ä»¥å®ç°è¯¥æ“ä½œ
 	Ptr<Pic_base> p;
 };
 
-// ÓÉÓÚÒÔÏÂÕâĞ©²Ù×÷²»»á¸Ä±äÕıÔÚ×÷ÓÃµÄPictureÀàĞÍ¶ÔÏóµÄ×´Ì¬£¬Òò´ËÃ»ÓĞ±ØÒª½«ËüÃÇ¶¨ÒåÎªPictureµÄ³ÉÔ±º¯Êı
+// ç”±äºä»¥ä¸‹è¿™äº›æ“ä½œä¸ä¼šæ”¹å˜æ­£åœ¨ä½œç”¨çš„Pictureç±»å‹å¯¹è±¡çš„çŠ¶æ€ï¼Œå› æ­¤æ²¡æœ‰å¿…è¦å°†å®ƒä»¬å®šä¹‰ä¸ºPictureçš„æˆå‘˜å‡½æ•°
 Picture frame(const Picture&);
 Picture hcat(const Picture&, const Picture&);
 Picture vcat(const Picture&, const Picture&);
@@ -66,11 +66,11 @@ std::ostream& operator<<(std::ostream&, const Picture&);
 
 class String_Pic : public Pic_base 
 {
-	// ½«PictureÀà¶¨Òå³ÉString_PicÀàµÄÒ»¸öÓÑÔªÀà£¬ÕâÑù¾Í¿ÉÒÔÍ¨¹ıPictureÀà·ÃÎÊString_PicÀàµÄ¹¹Ôìº¯Êı
+	// å°†Pictureç±»å®šä¹‰æˆString_Picç±»çš„ä¸€ä¸ªå‹å…ƒç±»ï¼Œè¿™æ ·å°±å¯ä»¥é€šè¿‡Pictureç±»è®¿é—®String_Picç±»çš„æ„é€ å‡½æ•°
 	friend class Picture;
 	std::vector<std::string> data;
-	// ´ÓÏòÁ¿Àà²ÎÊıvÖĞ½«µ×²ãµÄ×Ö·û´®¸´ÖÆµ½´òËûÊı¾İ³ÉÔ±Àï¡£ÕâÊÇÕû¸ö³ÌĞòÖĞÎ¨Ò»¶Ô×Ö·û½øĞĞ¸´ÖÆµÄµØ·½¡£
-	// ÔÚÆäËüµØ·½£¬ÎÒÃÇÖ»ÊÇ¸´ÖÆPtr<Pic_base>¶ÔÏó£¬ËüÊµ¼ÊÉÏÖ»ÊÇ¸´ÖÆÁËÖ¸Õë£¬Ê¹ÒıÓÃ¼ÆÊıÆ÷Ôö¼ÓÒ»¡£
+	// ä»å‘é‡ç±»å‚æ•°vä¸­å°†åº•å±‚çš„å­—ç¬¦ä¸²å¤åˆ¶åˆ°æ‰“ä»–æ•°æ®æˆå‘˜é‡Œã€‚è¿™æ˜¯æ•´ä¸ªç¨‹åºä¸­å”¯ä¸€å¯¹å­—ç¬¦è¿›è¡Œå¤åˆ¶çš„åœ°æ–¹ã€‚
+	// åœ¨å…¶å®ƒåœ°æ–¹ï¼Œæˆ‘ä»¬åªæ˜¯å¤åˆ¶Ptr<Pic_base>å¯¹è±¡ï¼Œå®ƒå®é™…ä¸Šåªæ˜¯å¤åˆ¶äº†æŒ‡é’ˆï¼Œä½¿å¼•ç”¨è®¡æ•°å™¨å¢åŠ ä¸€ã€‚
 	String_Pic(const std::vector<std::string>& v) : data(v) { }
 
 	ht_sz height() const { return data.size(); }
@@ -107,7 +107,7 @@ class HCat_Pic : public Pic_base
 	HCat_Pic(const Ptr<Pic_base>& l, const Ptr<Pic_base>& r) :
 		left(l), right(r) { }
 
-	wd_sz width() const { return left->width() + right->height(); }
+	wd_sz width() const { return left->width() + right->width(); }
 	ht_sz height() const { return max(left->height(), right->height()); }
 
 	void display(std::ostream&, ht_sz, bool) const;
@@ -116,10 +116,10 @@ class HCat_Pic : public Pic_base
 
 class Frame_Pic : public Pic_base
 {
-	// ÕâÀï¶¨ÒåÎªÓÑÔªº¯ÊıÊÇÒòÎªframeº¯ÊıÖĞÒªÉú³ÉFrame_PicÀàĞÍµÄ¶ÔÏó£¬¶øFrame_PicÀàµÄ¹¹Ôìº¯ÊıÊÇË½ÓĞµÄ
+	// è¿™é‡Œå®šä¹‰ä¸ºå‹å…ƒå‡½æ•°æ˜¯å› ä¸ºframeå‡½æ•°ä¸­è¦ç”ŸæˆFrame_Picç±»å‹çš„å¯¹è±¡ï¼Œè€ŒFrame_Picç±»çš„æ„é€ å‡½æ•°æ˜¯ç§æœ‰çš„
 	friend Picture frame(const Picture&);
 	Ptr<Pic_base> p;
-	// Ö»ĞèÒª°Ñ½«Òª±»¼ÓÉÏ¿ò¼ÜµÄÔ´¶ÔÏó¸´ÖÆµ½PtrÀàĞÍ¶ÔÏóÖĞ¼´¿É
+	// åªéœ€è¦æŠŠå°†è¦è¢«åŠ ä¸Šæ¡†æ¶çš„æºå¯¹è±¡å¤åˆ¶åˆ°Ptrç±»å‹å¯¹è±¡ä¸­å³å¯
 	Frame_Pic(const Ptr<Pic_base> pic) : p(pic) { }
 
 	wd_sz width() const { return p->width() + 4; }
