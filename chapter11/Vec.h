@@ -44,23 +44,23 @@ public:
 	bool empty() const { return data == avail;}
 
 private:
-	iterator data;		// VecÖĞµÄÊ×ÔªËØ 
-	iterator avail;		// VecÖĞÄ©ÔªËØµÄºóÃæÒ»¸öÔªËØ
-	iterator limit;		// ĞÂ·ÖÅäÄÚ´æÖĞÄ©ÔªËØºóÃæÒ»¸öÔªËØ
+	iterator data;		// Vecä¸­çš„é¦–å…ƒç´  
+	iterator avail;		// Vecä¸­æœ«å…ƒç´ çš„åé¢ä¸€ä¸ªå…ƒç´ 
+	iterator limit;		// æ–°åˆ†é…å†…å­˜ä¸­æœ«å…ƒç´ åé¢ä¸€ä¸ªå…ƒç´ 
 
-	// ÔÚ<memory>Í·ÎÄ¼şÖĞÌá¹©ÁËÒ»¸öÃûÎªallocator<T>µÄÀà£¬Ëü¿ÉÒÔ·ÖÅäÒ»¿éÔ¤±¸ÓÃÓÚ´æ´¢TÀàĞÍ
-	// ¶ÔÏóµ«ÊÇÉĞÎ´³õÊ¼»¯µÄÄÚ´æ¿é£¬²¢·µ»ØÒ»¸öÖ¸ÏòÕâ¿éÄÚ´æ¿éµÄÍ·ÔªËØµÄÖ¸Õë
-	std::allocator<T> alloc;	// ¿ØÖÆÄÚ´æ·ÖÅäµÄ¶ÔÏó
+	// åœ¨<memory>å¤´æ–‡ä»¶ä¸­æä¾›äº†ä¸€ä¸ªåä¸ºallocator<T>çš„ç±»ï¼Œå®ƒå¯ä»¥åˆ†é…ä¸€å—é¢„å¤‡ç”¨äºå­˜å‚¨Tç±»å‹
+	// å¯¹è±¡ä½†æ˜¯å°šæœªåˆå§‹åŒ–çš„å†…å­˜å—ï¼Œå¹¶è¿”å›ä¸€ä¸ªæŒ‡å‘è¿™å—å†…å­˜å—çš„å¤´å…ƒç´ çš„æŒ‡é’ˆ
+	std::allocator<T> alloc;	// æ§åˆ¶å†…å­˜åˆ†é…çš„å¯¹è±¡
 
-	// Îªµ×²ãµÄÊı×é·ÖÅä¿Õ¼ä²¢¶ÔËü½øĞĞ³õÊ¼»¯
+	// ä¸ºåº•å±‚çš„æ•°ç»„åˆ†é…ç©ºé—´å¹¶å¯¹å®ƒè¿›è¡Œåˆå§‹åŒ–
 	void create();
 	void create(size_type, const T&);
 	void create(const_iterator, const_iterator);
 
-	// É¾³ıÊı×éÖĞµÄÔªËØ²¢ÊÍ·ÅÆäÕ¼ÓÃµÄÄÚ´æ
+	// åˆ é™¤æ•°ç»„ä¸­çš„å…ƒç´ å¹¶é‡Šæ”¾å…¶å ç”¨çš„å†…å­˜
 	void uncreate();
 
-	// Ö§³Öpush_backµÄº¯Êı
+	// æ”¯æŒpush_backçš„å‡½æ•°
 	void grow();
 	void unchecked_append(const T&);
 };
@@ -75,12 +75,16 @@ template <class T> void Vec<T>::create(size_type n, const T& val)
 {
 	data = alloc.allocate(n);
 	limit = avail = data + n;
+	// ç”±allocateå‡½æ•°åˆ†é…çš„å†…å­˜å¹¶æ²¡æœ‰è¢«åˆå§‹åŒ–ï¼Œå› æ­¤å¿…é¡»è°ƒç”¨uninitialized_fillå‡½æ•°ä»¥ä¾¿å¯¹å®ƒè¿›è¡Œåˆå§‹åŒ–ï¼Œ
+	// è¯¥å‡½æ•°å°†ç¬¬ä¸‰ä¸ªå‚æ•°æŒ‡å‘çš„å¯¹è±¡å†…å®¹å¤åˆ¶åˆ°å‰ä¸¤ä¸ªå‚æ•°æŒ‡å‘çš„å°šæœªè¢«åˆå§‹åŒ–çš„å†…å­˜ç©ºé—´	
 	std::uninitialized_fill(data, limit, val);
 }
 
 template <class T> void Vec<T>::create(const_iterator i, const_iterator j)
 {
 	data = alloc.allocate(j - i);
+	// å°†ç¬¬ä¸€ã€ç¬¬äºŒä¸ªå‚æ•°æ‰€æŒ‡å‘çš„åŒºé—´å†…çš„å€¼å¤åˆ¶åˆ°ç¬¬ä¸‰ä¸ªå‚æ•°æŒ‡å‘çš„å†…å­˜ç©ºé—´ä¸­ï¼Œ
+	// å¹¶è¿”å›ä¸€ä¸ªæŒ‡å‘è¢«åˆå§‹åŒ–çš„å†…å­˜ä¸­çš„æœ«å…ƒç´ åé¢ä¸€ä¸ªå…ƒç´ çš„åœ°å€æŒ‡é’ˆ	
 	limit = avail = std::uninitialized_copy(i, j, data);
 }
 
@@ -88,23 +92,23 @@ template <class T> void Vec<T>::uncreate()
 {
 	if (data)
 	{
-		// £¨ÒÔÏà·´µÄË³Ğò£©É¾³ı¹¹Ôìº¯ÊıÉú³ÉµÄÔªËØ
+		// ï¼ˆä»¥ç›¸åçš„é¡ºåºï¼‰åˆ é™¤æ„é€ å‡½æ•°ç”Ÿæˆçš„å…ƒç´ 
 		iterator it = avail;
 		while (it != data)
 			alloc.destroy(--it);
 
-		// ·µ»ØÕ¼ÓÃµÄËùÓĞÄÚ´æ¿Õ¼ä
+		// è¿”å›å ç”¨çš„æ‰€æœ‰å†…å­˜ç©ºé—´
 		alloc.deallocate(data, limit - data);
 	}
 
-	// ÖØÖÃÖ¸ÕëÒÔ±íÃ÷VecÀàĞÍ¶ÔÏóÎª¿Õ
+	// é‡ç½®æŒ‡é’ˆä»¥è¡¨æ˜Vecç±»å‹å¯¹è±¡ä¸ºç©º
 	data = avail = limit = 0;
 }
 
 template <class T> void Vec<T>::grow()
 {
-	// ÔÚÀ©Õ¹¶ÔÏó´óĞ¡Ê±£¬Îª¶ÔÏó·ÖÅäÊµ¼ÊÊ¹ÓÃµÄÁ½±¶´óĞ¡µÄÄÚ´æ¿Õ¼ä£¨Èç¹ûVec¶ÔÏóÎª¿Õ£¬ÔòÑ¡ÔñÒ»¸öÔªËØ½øĞĞÄÚ´æ·ÖÅä£©
-	// maxº¯ÊıµÄÁ½¸ö²ÎÊı±ØĞëÊÇÍ¬Ò»ÀàĞÍ£¬limit-dataµÄÀàĞÍÊÇptrdiff_t
+	// åœ¨æ‰©å±•å¯¹è±¡å¤§å°æ—¶ï¼Œä¸ºå¯¹è±¡åˆ†é…å®é™…ä½¿ç”¨çš„ä¸¤å€å¤§å°çš„å†…å­˜ç©ºé—´ï¼ˆå¦‚æœVecå¯¹è±¡ä¸ºç©ºï¼Œåˆ™é€‰æ‹©ä¸€ä¸ªå…ƒç´ è¿›è¡Œå†…å­˜åˆ†é…ï¼‰
+	// maxå‡½æ•°çš„ä¸¤ä¸ªå‚æ•°å¿…é¡»æ˜¯åŒä¸€ç±»å‹ï¼Œlimit-dataçš„ç±»å‹æ˜¯ptrdiff_t
 	size_type new_size = max(2 * (limit - data), ptrdiff_t(1));
 
 	iterator new_data = alloc.allocate(new_size);
@@ -117,8 +121,8 @@ template <class T> void Vec<T>::grow()
 	limit = data + new_size;
 }
 
-// ÔÚ½ô¸ú×Å¹¹ÔìµÄÔªËØºóµÄÎ»ÖÃĞÂÉú³ÉÒ»¸öÔªËØ
-// ¼ÙÉèavailÖ¸ÏòÒ»Æ¬ĞÂ·ÖÅäµ«ÉĞÎ´±»³õÊ¼»¯µÄÄÚ´æ¿Õ¼ä
+// åœ¨ç´§è·Ÿç€æ„é€ çš„å…ƒç´ åçš„ä½ç½®æ–°ç”Ÿæˆä¸€ä¸ªå…ƒç´ 
+// å‡è®¾availæŒ‡å‘ä¸€ç‰‡æ–°åˆ†é…ä½†å°šæœªè¢«åˆå§‹åŒ–çš„å†…å­˜ç©ºé—´
 template <class T> void Vec<T>::unchecked_append(const T& val)
 {
 	alloc.construct(avail++, val);
@@ -126,13 +130,13 @@ template <class T> void Vec<T>::unchecked_append(const T& val)
 
 template <class T> Vec<T>& Vec<T>::operator=(const Vec& rhs)
 {
-	// ÅĞ¶ÏÊÇ·ñ½øĞĞ×ÔÎÒ¸³Öµ
-	if (&rhs £¡= this)
+	// åˆ¤æ–­æ˜¯å¦è¿›è¡Œè‡ªæˆ‘èµ‹å€¼
+	if (&rhs ï¼= this)
 	{
-		// É¾³ıÔËËã·û×ó²àµÄÊı×é
+		// åˆ é™¤è¿ç®—ç¬¦å·¦ä¾§çš„æ•°ç»„
 		uncreate();
 
-		// ´ÓÓÒ²à¸´ÖÆÔªËØµ½×ó²à
+		// ä»å³ä¾§å¤åˆ¶å…ƒç´ åˆ°å·¦ä¾§
 		create(rhs.begin(), rhs.end());
 	}
 
